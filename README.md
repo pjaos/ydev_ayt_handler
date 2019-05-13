@@ -27,6 +27,7 @@ This returns an integer that increments every time a valid AYT message is receiv
 #### mos.yml
 
 #Define the configuration attributes here
+```
 config_schema:
  #These are user configurable attributes
  - ["user", 						      "o",              {title: "Holds attributes that the user may configure."}]
@@ -38,6 +39,7 @@ config_schema:
  - ["wifi.sta.enable",            "b", true, {title: "EW"}]
  - ["wifi.sta.ssid",              "s", "YOURWIFISSID", {title: "SSID"}]
  - ["wifi.sta.pass",              "s", "YOURWIFIPASSWORD", {title: "PW"}]
+```
 
 #### Application
 
@@ -115,7 +117,7 @@ enum mgos_app_init_result mgos_app_init(void) {
 }
 ```
 
-This application will return a basic JSON message to the Y Iot system.
+This application will return a basic JSON message to the Y IoT system.
 Extra JSON key=value pairs may be added for the new device developed.
 
 
