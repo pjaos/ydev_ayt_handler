@@ -8,6 +8,7 @@ static void (*_send_ayt_response)(struct mg_connection *nc);
 struct mg_connection *aty_response_con;
 static int ayt_msg_count;
 static struct mg_connection *udp_bcast_rx_con;
+static char *expected_ayt_message;
 
 /**
  * @brief Get the number of are you there (AYT) messages that this device has received.
@@ -36,9 +37,29 @@ static void udp_broadcast_handler(struct mg_connection *nc, int ev, void *ev_dat
 
 		json_scanf(rx_str, io->len, "{AYT:%Q}", &ayt_id_str);
 
+        //If the AYT message has not been set yet
+        if (ayt_id_str
+                && strcmp(mgos_sys_config_get_ydevayth_ayt_msg(),
+                        UNSET_AYT_MESSAGE) == 0) {
+            int rx_ayt_msg_len = strlen(ayt_id_str);
+            if (rx_ayt_msg_len < MIN_AYT_MSG_LEN) {
+                LOG(LL_INFO,
+                        ("AYT msg is too short <%s> (min = %d bytes)\n", ayt_id_str, MIN_AYT_MSG_LEN ));
+            } else if (rx_ayt_msg_len > MAX_AYT_MSG_LEN) {
+                LOG(LL_INFO,
+                        ("AYT msg is too long <%s> (max = %d bytes)\n", ayt_id_str, MAX_AYT_MSG_LEN ));
+            } else {
+                mgos_sys_config_set_ydevayth_ayt_msg(ayt_id_str);
+                mgos_sys_config_save(&mgos_sys_config, false, NULL);
+                expected_ayt_message =
+                        (char *) mgos_sys_config_get_ydevayth_ayt_msg();
+                LOG(LL_INFO, ("Set AYT msg to %s\n", expected_ayt_message ));
+            }
+        }
+
 		//If we have an ICONS AYT message then get the ICONS gateway IP address
 		if( ayt_id_str != NULL ) {
-			if( strcmp(ayt_id_str, ICONS_AYT_MESSAGE) == 0 ) {
+			if( strcmp(ayt_id_str, expected_ayt_message) == 0 ) {
 
 				//If we have a function to send a response
 				if( _send_ayt_response != NULL ) {
@@ -59,7 +80,7 @@ static void udp_broadcast_handler(struct mg_connection *nc, int ev, void *ev_dat
 }
 
 bool mgos_ydev_ayt_handler_init(void) {
-
+    expected_ayt_message =  (char *)mgos_sys_config_get_ydevayth_ayt_msg();
 	return true;
 }
 
