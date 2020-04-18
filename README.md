@@ -29,16 +29,9 @@ This returns an integer that increments every time a valid AYT message is receiv
 #Define the configuration attributes here
 ```
 config_schema:
- #These are user configurable attributes
- - ["user",             "o",              {title: "Holds attributes that the user may configure."}]
- - ["user.product_id",  "s", "YPRODUCTID",{title: "The Y product ID."}]
- - ["user.unit_name",   "s", "AUNITNAME", {title: "The name of the unit set by the user."}]
- - ["user.group_name",  "s", "",          {title: "The group name of the set by the user."}]
-
- - ["wifi.ap.enable",   "b", false, {title: "EW"}]
- - ["wifi.sta.enable",  "b", true, {title: "EW"}]
- - ["wifi.sta.ssid",    "s", "YOURWIFISSID", {title: "SSID"}]
- - ["wifi.sta.pass",    "s", "YOURWIFIPASSWORD", {title: "PW"}]
+  - ["ydevayth",                 "o",                                                                     {title: "Y device are you there handler"}]
+  - ["ydevayth.ayt_msg",         "s", "CHANGEMECHANGEMECHANGEMECHANGEMECHANGEMECHANGEMECHANGEMECHANGEME", {title: "The Y device are you there message."}]
+  - ["ydevayth.max_ayt_msg_len", "i", 64,                                                                 {title: "The maximum length of the AYT message."}]
 ```
 
 #### Application
