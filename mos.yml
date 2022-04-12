@@ -10,9 +10,8 @@ includes:
   - include
 
 config_schema:
-  - ["ydevayth",                 "o",                                                                     {title: "Y device are you there handler"}]
-  - ["ydevayth.ayt_msg",         "s", "CHANGEMECHANGEMECHANGEMECHANGEMECHANGEMECHANGEMECHANGEMECHANGEME", {title: "The Y device are you there message."}]
-  - ["ydevayth.max_ayt_msg_len", "i", 64,                                                                 {title: "The maximum length of the AYT message."}]
+  - ["ydevayth",          "o", {title: "Y device are you there handler"}]
+  - ["ydevayth.hashtag",  "s", "",{title: "The hashtag used in conversations when replying to are you there messages. The first one the dev hears is stored here."}]
 
 tags:
   - c
